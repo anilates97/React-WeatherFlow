@@ -1,38 +1,78 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
+
+:root {
+  --color-primary: #0e34a0;
+  --color-secondary: #5f5980;
+  --color-dark-blue: #2f3061;
+  --color-light: #dfdfdf;
+  --color-dark: #343434;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.header__text {
+  /*  */
+  padding: 2.5rem;
+
+  font-weight: 300;
+  margin-top: 0;
+  letter-spacing: 1px;
+  color: var(--color-light);
+  font-size: 3.2rem;
+  flex: 1;
+}
+
+.header {
+  background-color: var(--color-dark-blue);
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 30rem 30rem;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-items: center;
+  align-items: center;
+  grid-auto-flow: column;
 }
 
-.App-link {
-  color: #61dafb;
+.searchInput {
+  padding: 0.7rem;
+  width: 25rem;
+  transition: width 0.2s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.searchInput:focus {
+  outline: none;
+}
+
+.searchInput:focus {
+  width: 30rem;
+}
+
+.weatherItem {
+  background-color: var(--color-light);
+  padding: 4rem;
+  display: grid;
+
+  grid-template-rows: 1fr 1fr 3rem;
+  justify-items: center;
+  font-size: 2.3rem;
+}
+
+.content {
+  background-color: var(--color-secondary);
+  height: calc(100vh - 9rem);
 }
