@@ -16,6 +16,7 @@
   box-sizing: inherit;
 }
 
+/* 1rem 10px */
 html {
   box-sizing: border-box;
   font-size: 62.5%;
@@ -39,6 +40,7 @@ body {
 
 .header {
   background-color: var(--color-dark-blue);
+  grid-column-gap: 2rem;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 30rem 30rem;
@@ -59,20 +61,143 @@ body {
 }
 
 .searchInput:focus {
-  width: 30rem;
+  width: 28rem;
 }
 
 .weatherItem {
   background-color: var(--color-light);
   padding: 4rem;
   display: grid;
+  align-items: center;
+  grid-template-rows: 1fr 1fr min-content;
+  grid-template-columns: 1fr;
 
-  grid-template-rows: 1fr 1fr 3rem;
   justify-items: center;
   font-size: 2.3rem;
+}
+
+.weatherItem > * {
+  padding: 1rem;
 }
 
 .content {
   background-color: var(--color-secondary);
   height: calc(100vh - 9rem);
+}
+
+.city {
+  display: flex;
+  align-items: center;
+  color: var(--color-dark-blue);
+}
+
+.city::before,
+.city::after {
+  content: "";
+  display: block;
+  width: 20rem;
+  height: 2rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  background-color: var(--color-dark-blue);
+}
+
+.region {
+  color: var(--color-secondary);
+}
+
+.extends {
+  color: #fff;
+  background-color: var(--color-dark-blue);
+  border-radius: 50px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.temp {
+  grid-row: 2/3;
+  grid-column: 2/3;
+}
+
+.condition {
+  grid-row: 2/3;
+  grid-column: 3/4;
+}
+
+.wind {
+  grid-row: 2/3;
+  grid-column: 4/5;
+}
+
+.lastUpdated {
+  grid-column: 4 / span 2;
+}
+
+.feelsTemp {
+  grid-row: 2/3;
+  grid-column: 5/6;
+}
+
+.conditionIcon {
+  height: 18rem;
+  grid-column: 6 / span 3;
+  grid-row: 1 / span 2;
+}
+
+.today {
+  display: flex;
+  grid-row: 2/3;
+  grid-column: 1 / 2;
+  background-color: var(--color-secondary);
+  border-radius: 100px;
+  align-items: center;
+  color: #fff;
+  aspect-ratio: 1;
+}
+
+.extends > * {
+  padding: 1rem;
+}
+
+.myclass-enter {
+  opacity: 0;
+}
+
+.myclass-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.myclass-exit {
+  opacity: 1;
+}
+
+.myclass-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.btn {
+  padding: 0.7rem 2rem;
+  border: 1px solid var(--color-secondary);
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-0.4rem);
+}
+
+.btn:active {
+  transform: translateY(0.6rem);
+}
+
+.form {
+  display: flex;
 }

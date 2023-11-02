@@ -1,40 +1,33 @@
-import { useReducer } from "react";
+import { useEffect, useState } from "react";
+import WeatherItem from "./WeatherItem";
+import { CSSTransition } from "react-transition-group";
 
-const initialState = {
-  weather: [],
-  inputSearch: "",
-  status: "loading",
-};
+import { useWeather } from "./context/WeatherContext";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "inputChange":
-      return {
-        ...state,
-        inputSearch: action.payload,
-      };
+//&q=gebze&days=7
 
-    case "searchCity":
-      return {
-        ...state,
-        weather: action.payload,
-      };
+const BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key=";
 
-    default:
-      throw new Error("Unknown action type");
-  }
-}
+const key = "2831645116514c55bb9132837230610";
 
 function Search() {
-  const [{ weather, inputSearch }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const { inputSearch, dispatch } = useWeather();
 
-  function handleSearch(city) {}
+  async function handleSearch(city) {
+    const response = await fetch(`${BASE_URL}${key}&q=${city}&days=7`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    dispatch({ type: "dataLoaded", payload: data });
+    dispatch({ type: "showAnimation" });
+  }
 
   return (
-    <form onSubmit={handleSearch}>
+    <form className="form" onSubmit={(e) => e.preventDefault()}>
       <input
         className="searchInput"
         type="text"
@@ -44,6 +37,9 @@ function Search() {
           dispatch({ type: "inputChange", payload: e.target.value })
         }
       />
+      <button className="btn" onClick={() => handleSearch(inputSearch)}>
+        Search
+      </button>
     </form>
   );
 }
