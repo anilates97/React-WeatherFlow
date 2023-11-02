@@ -106,6 +106,9 @@ function WeatherItem() {
     ) {
       img = <img src={heavyRain} alt="icon" className="conditionIcon" />;
     }
+    if (current.condition.text === "Moderate or heavy rain shower") {
+      img = <img src={heavyRain} alt="icon" className="conditionIcon" />;
+    }
     if (current.condition.text.toLowerCase() === "Light sleet") {
       img = <img src={sleet} alt="icon" className="conditionIcon" />;
     }
@@ -150,32 +153,19 @@ function WeatherItem() {
     if (current.condition.text.toLowerCase() === "Light snow showers") {
       img = <img src={patchySnow} alt="icon" className="conditionIcon" />;
     }
-    if (
-      current.condition.text.toLowerCase() ===
-      "Moderate or heavy showers of ice pellets"
-    ) {
+    if (current.condition.text === "Moderate or heavy showers of ice pellets") {
       img = <img src={blowSnowy} alt="icon" className="conditionIcon" />;
     }
-    if (
-      current.condition.text.toLowerCase() === "Patchy light rain with thunder"
-    ) {
+    if (current.condition.text === "Patchy light rain with thunder") {
       img = <img src={thunderRain} alt="icon" className="conditionIcon" />;
     }
-    if (
-      current.condition.text.toLowerCase() ===
-      "Moderate or heavy rain with thunder"
-    ) {
+    if (current.condition.text === "Moderate or heavy rain with thunder") {
       img = <img src={thunderRain} alt="icon" className="conditionIcon" />;
     }
-    if (
-      current.condition.text.toLowerCase() === "Patchy light snow with thunder"
-    ) {
+    if (current.condition.text === "Patchy light snow with thunder") {
       img = <img src={thunderStorm} alt="icon" className="conditionIcon" />;
     }
-    if (
-      current.condition.text.toLowerCase() ===
-      "Moderate or heavy snow with thunder"
-    ) {
+    if (current.condition.text === "Moderate or heavy snow with thunder") {
       img = <img src={blowSnowy} alt="icon" className="conditionIcon" />;
     }
   }
@@ -192,24 +182,35 @@ function WeatherItem() {
           <h3 className="city">{location.region}</h3>
           <h5 className="region">{location.name}</h5>
           <div className="extends">
-            <span className="lat">latitude: {location.lat}</span>
-            <span className="lon">longitude:{location.lon}</span>
-
             <span className="time">
-              time: {location.localtime.split(" ")[1]}{" "}
-            </span>
-            <h2 className="today">Today</h2>
-            <span className="temp">temp: {current.temp_c} °C</span>
-            <span className="condition">
-              condition: {current.condition.text}
+              <span className="extendsTitle">time:</span>{" "}
+              {location.localtime.split(" ")[1]}{" "}
             </span>
             <span className="lastUpdated">
-              last updated: {current.last_updated}
+              <span className="extendsTitle">last updated:</span>{" "}
+              {current.last_updated}
             </span>
-            <span className="wind">wind: {current.wind_kph} km</span>
+            <h2 className="today">Today</h2>
+            <span className="temp">{current.temp_c} °C</span>
             <span className="feelsTemp">
-              feels temp: {current.feelslike_c} °C
+              <span className="extendsTitle">feels temp:</span>{" "}
+              {current.feelslike_c} °C
             </span>
+            <span className="condition">{current.condition.text}</span>
+
+            <span className="wind">
+              <span className="extendsTitle">wind: </span>
+              {current.wind_kph} km
+            </span>
+            <span className="humidity">
+              <span className="extendsTitle">humidity: </span>
+              {current.humidity}
+            </span>
+            <span className="pressure">
+              <span className="extendsTitle">pressureMb: </span>
+              {current.pressure_mb}
+            </span>
+
             {/* <ConvertIcon current={current} status={status} /> */}
             {img}
           </div>
