@@ -7,6 +7,7 @@ const initialState = {
   inputSearch: "",
   status: "loading",
   showContent: false,
+  error: false,
 };
 
 function reducer(state, action) {
@@ -23,6 +24,14 @@ function reducer(state, action) {
         ...state,
         weather: action.payload,
         status: "loaded",
+        inputSearch: "",
+        error: false,
+      };
+
+    case "dataError":
+      return {
+        ...state,
+        error: true,
       };
 
     case "showAnimation":
@@ -37,14 +46,20 @@ function reducer(state, action) {
 }
 
 function WeatherProvider({ children }) {
-  const [{ weather, inputSearch, status, showContent }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ weather, inputSearch, status, showContent, error }, dispatch] =
+    useReducer(reducer, initialState);
 
   return (
     <WeatherContext.Provider
-      value={{ weather, inputSearch, status, showContent, dispatch }}
+      value={{
+        weather,
+        inputSearch,
+        status,
+        showContent,
+        error,
+
+        dispatch,
+      }}
     >
       {children}
     </WeatherContext.Provider>

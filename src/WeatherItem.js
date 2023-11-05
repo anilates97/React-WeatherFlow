@@ -17,10 +17,18 @@ import lightRain from "../src/img/light-rain.png";
 import heavyRain from "../src/img/heavy-rain.png";
 import thunderRain from "../src/img/thunderRain.png";
 import moderateRain from "../src/img/moderateRain.png";
+import { useEffect } from "react";
+import ErrorPage from "./ErrorPage";
+import { useGeolocation } from "./hooks/useGeolocation";
+
+const BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key=";
+
+const key = "2831645116514c55bb9132837230610";
 
 function WeatherItem() {
-  const { weather, showContent, status } = useWeather();
-  const { location, current, forecast } = weather;
+  const { weather, showContent, status, dispatch, error } = useWeather();
+
+  const { location, current } = weather;
 
   let img;
   if (status === "loaded") {
@@ -170,53 +178,62 @@ function WeatherItem() {
     }
   }
 
+  useEffect(function () {
+    async function fetchData() {
+      const response = await fetch(`${BASE_URL}${key}&q=istanbul}&days=7`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      dispatch({ type: "dataLoaded", payload: data });
+      dispatch({ type: "showAnimation" });
+    }
+
+    fetchData();
+  }, []);
+
   return (
-    <CSSTransition
-      in={showContent}
-      timeout={300}
-      classNames="myclass"
-      unmountOnExit
-    >
-      {status === "loaded" && (
-        <div className="weatherItem">
-          <h3 className="city">{location.region}</h3>
-          <h5 className="region">{location.name}</h5>
-          <div className="extends">
-            <span className="time">
-              <span className="extendsTitle">time:</span>{" "}
-              {location.localtime.split(" ")[1]}{" "}
-            </span>
-            <span className="lastUpdated">
-              <span className="extendsTitle">last updated:</span>{" "}
-              {current.last_updated}
-            </span>
-            <h2 className="today">Today</h2>
-            <span className="temp">{current.temp_c} °C</span>
-            <span className="feelsTemp">
-              <span className="extendsTitle">feels temp:</span>{" "}
-              {current.feelslike_c} °C
-            </span>
-            <span className="condition">{current.condition.text}</span>
+    <div className="weatherItem">
+      <h3 className="city">{location?.region}</h3>
 
-            <span className="wind">
-              <span className="extendsTitle">wind: </span>
-              {current.wind_kph} km
-            </span>
-            <span className="humidity">
-              <span className="extendsTitle">humidity: </span>
-              {current.humidity}
-            </span>
-            <span className="pressure">
-              <span className="extendsTitle">pressureMb: </span>
-              {current.pressure_mb}
-            </span>
+      <h5 className="region">{location?.name}</h5>
+      <div className="extends">
+        <span className="time">
+          <span className="extendsTitle">time:</span>{" "}
+          {location?.localtime.split(" ")[1]}{" "}
+        </span>
+        <span className="lastUpdated">
+          <span className="extendsTitle">last updated:</span>{" "}
+          {current?.last_updated}
+        </span>
+        <h2 className="today">Today</h2>
+        <span className="temp">{current?.temp_c} °C</span>
+        <span className="feelsTemp">
+          <span className="extendsTitle">feels temp:</span>{" "}
+          {current?.feelslike_c} °C
+        </span>
+        <span className="condition">{current?.condition.text}</span>
 
-            {/* <ConvertIcon current={current} status={status} /> */}
-            {img}
-          </div>
-        </div>
-      )}
-    </CSSTransition>
+        <span className="wind">
+          <span className="extendsTitle">wind: </span>
+          {current?.wind_kph} km
+        </span>
+        <span className="humidity">
+          <span className="extendsTitle">humidity: </span>
+          {current?.humidity}
+        </span>
+        <span className="pressure">
+          <span className="extendsTitle">pressureMb: </span>
+          {current?.pressure_mb}
+        </span>
+
+        {/* <ConvertIcon current={current} status={status} /> */}
+        {img}
+      </div>
+    </div>
   );
 }
 

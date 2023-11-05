@@ -1,29 +1,36 @@
 import WeatherForecast from "./WeatherForecast";
+import WeatherHours from "./WeatherHours";
 import { useWeather } from "./context/WeatherContext";
 
 function WeatherForecastList() {
-  const { weather, dispatch, inputSearch } = useWeather();
+  const { weather, inputSearch } = useWeather();
   const { forecast } = weather;
 
-  let item;
+  let items;
 
   if (forecast) {
-    item = forecast.forecastday.map((item) => (
-      <WeatherForecast key={item.hour.time_epoch} weather={item} />
+    items = forecast.forecastday.map((item) => (
+      <WeatherForecast key={crypto.randomUUID()} weather={item} />
     ));
   }
 
   return (
-    <div className="forecastList">
-      {inputSearch && forecast && (
-        <>
-          <h1 className="forecastTitle">3 day forecast</h1>
-          <span className="line"></span>
-          <span className="line2"></span>
-        </>
-      )}
-      {inputSearch && forecast && item}
-    </div>
+    <>
+      <div className="forecastList">
+        {weather && (
+          <>
+            <h1 className="forecastTitle">3 day forecast</h1>
+            <span className="line"></span>
+            <span className="line2"></span>
+
+            <div className="hour">Hour</div>
+          </>
+        )}
+        {items}
+      </div>
+
+      <WeatherHours />
+    </>
   );
 }
 

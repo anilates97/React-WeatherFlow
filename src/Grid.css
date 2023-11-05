@@ -1,0 +1,17 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: max-content 12rem 12rem 8rem;
+
+  align-items: center;
+
+  justify-items: center;
+}
+
+.grid-item {
+  padding: 1rem;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 60rem 50rem 35rem;
+}
