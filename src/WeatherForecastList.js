@@ -1,16 +1,16 @@
-import WeatherForecast from "./WeatherForecast";
+import ForecastDates from "./ForecastDates";
 import WeatherHours from "./WeatherHours";
 import { useWeather } from "./context/WeatherContext";
 
 function WeatherForecastList() {
-  const { weather, inputSearch } = useWeather();
+  const { weather } = useWeather();
   const { forecast } = weather;
 
   let items;
 
   if (forecast) {
     items = forecast.forecastday.map((item) => (
-      <WeatherForecast key={crypto.randomUUID()} weather={item} />
+      <ForecastDates key={crypto.randomUUID()} weather={item} />
     ));
   }
 

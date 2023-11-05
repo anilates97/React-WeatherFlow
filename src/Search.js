@@ -1,46 +1,52 @@
-import { useEffect, useState } from "react";
-import WeatherItem from "./WeatherItem";
-import { CSSTransition } from "react-transition-group";
+import { useEffect } from "react";
 
 import { useWeather } from "./context/WeatherContext";
 import { useGeolocation } from "./hooks/useGeolocation";
 
-//&q=gebze&days=7
-
-const BASE_URL = "https://api.weatherapi.com/v1/forecast.json?key=";
-
-const key = "2831645116514c55bb9132837230610";
-
 function Search() {
-  const { inputSearch, dispatch, error } = useWeather();
-  const { isLoading, position, getPosition } = useGeolocation();
+  const { inputSearch, dispatch } = useWeather();
+  const { position, getPosition } = useGeolocation();
 
   async function handleSearch(city) {
-    const response = await fetch(`${BASE_URL}${key}&q=${city}&days=7`);
+    try {
+      if (!city) {
+        throw new Error("Invalid city value");
+      }
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_KEY}&q=${city}&days=7`
+      );
 
-    if (!response.status === 400) {
-      dispatch({ type: "dataError" });
+      if (!response.ok) {
+        dispatch({ type: "resetInput" });
+        const errorResponse = await response.json();
 
-      //throw new Error(`HTTP error! status: ${response.status}`);
+        if (errorResponse.error.code === 1006) {
+          throw new Error("No matching location found.");
+        }
+      }
+      const data = await response.json();
+
+      dispatch({ type: "dataLoaded", payload: data });
+    } catch (e) {
+      dispatch({ type: "dataError", payload: e.message });
+      console.log(e.message);
     }
-
-    const data = await response.json();
-
-    dispatch({ type: "dataLoaded", payload: data });
-    dispatch({ type: "showAnimation" });
   }
 
   useEffect(
     function () {
       async function fetchGpsData() {
-        const response = await fetch(
-          `${BASE_URL}${key}&q=${position?.lat},${position?.lng}&days=7`
-        );
+        let gpsUrl = `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_KEY}&q=${position?.lat},${position?.lng}&days=7`;
+        let currentUrl = `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_KEY}&q=istanbul&days=7`;
 
-        if (!response.status === 400) {
+        const response = await fetch(position ? gpsUrl : currentUrl);
+
+        console.log(response.status);
+
+        if (response.status === 400) {
+          console.log("ghataaaaaaa");
           dispatch({ type: "dataError" });
-
-          //throw new Error(`HTTP error! status: ${response.status}`);
+          return;
         }
 
         const data = await response.json();
@@ -52,8 +58,6 @@ function Search() {
     },
     [position, dispatch]
   );
-
-  console.log("error, ", error);
 
   return (
     <form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -70,7 +74,9 @@ function Search() {
         Search
       </button>
 
-      <button onClick={getPosition}>Location</button>
+      <button className="btn btn-primary" onClick={getPosition}>
+        Location
+      </button>
     </form>
   );
 }

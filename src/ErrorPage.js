@@ -1,5 +1,5 @@
-function ErrorPage() {
-  return <div>City not found!</div>;
+function ErrorPage({ message }) {
+  return <div className="error">{message}</div>;
 }
 
 export default ErrorPage;

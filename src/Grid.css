@@ -1,6 +1,6 @@
 .grid-container {
   display: grid;
-  grid-template-columns: max-content 12rem 12rem 8rem;
+  grid-template-columns: minmax(min-content, max-content) 12rem max-content 8rem;
 
   align-items: center;
 

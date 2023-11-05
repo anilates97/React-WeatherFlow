@@ -5,9 +5,10 @@ const WeatherContext = createContext();
 const initialState = {
   weather: [],
   inputSearch: "",
-  status: "loading",
+  isLoading: false,
+  isError: false,
   showContent: false,
-  error: false,
+  error: "",
 };
 
 function reducer(state, action) {
@@ -19,19 +20,31 @@ function reducer(state, action) {
         showContent: false,
       };
 
+    case "resetInput":
+      return {
+        ...state,
+        inputSearch: "",
+        isLoading: false,
+        error: "",
+        isError: false,
+      };
+
     case "dataLoaded":
       return {
         ...state,
         weather: action.payload,
-        status: "loaded",
+        isLoading: true,
         inputSearch: "",
-        error: false,
+        error: "",
+        isError: false,
       };
 
     case "dataError":
       return {
         ...state,
-        error: true,
+        error: action.payload,
+        isLoading: false,
+        isError: true,
       };
 
     case "showAnimation":
@@ -46,18 +59,20 @@ function reducer(state, action) {
 }
 
 function WeatherProvider({ children }) {
-  const [{ weather, inputSearch, status, showContent, error }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { weather, inputSearch, isLoading, showContent, error, isError },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   return (
     <WeatherContext.Provider
       value={{
         weather,
         inputSearch,
-        status,
+        isLoading,
         showContent,
         error,
-
+        isError,
         dispatch,
       }}
     >

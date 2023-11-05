@@ -1,4 +1,4 @@
-import Hours from "./Hours";
+import WeatherForecastItem from "./WeatherForecastItem";
 import { useWeather } from "./context/WeatherContext";
 
 function WeatherHours() {
@@ -32,18 +32,9 @@ function WeatherHours() {
     "23.00",
   ];
 
-  let content;
-  let day;
-  let day2;
-  let day3;
-  let days;
-
-  //hour.time.split(" ")[1]
-
-  //let content = hour.map((h) => <span>{h.time.split(" ")[1]}</span>);
-
-  //{content ? content : ""}
-  return <>{<Hours hours={hours} days={forecast?.forecastday} />}</>;
+  return (
+    <>{<WeatherForecastItem hours={hours} days={forecast?.forecastday} />}</>
+  );
 }
 
 export default WeatherHours;

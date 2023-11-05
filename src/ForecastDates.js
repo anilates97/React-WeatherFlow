@@ -1,4 +1,4 @@
-function WeatherForecast({ weather }) {
+function ForecastDates({ weather }) {
   return (
     <div>
       <div className="dates">{weather && weather.date}</div>
@@ -6,4 +6,4 @@ function WeatherForecast({ weather }) {
   );
 }
 
-export default WeatherForecast;
+export default ForecastDates;
