@@ -13,5 +13,5 @@
 
 .mainGrid {
   display: grid;
-  grid-template-columns: 60rem 50rem 35rem;
+  grid-template-columns: 70rem 60rem 55rem;
 }
