@@ -20,7 +20,7 @@ function WeatherForecastItem({ hours, days }) {
                             {h.time.split(" ")[1]}
                           </span>
                         ) : (
-                          <span>-</span>
+                          <span className="separator"></span>
                         )}
                         <span
                           key={`${index}-${innerIndex}-temp_c`}
